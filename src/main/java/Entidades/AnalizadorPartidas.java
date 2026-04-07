@@ -66,6 +66,7 @@ public class AnalizadorPartidas {
     IO.println("---------------------");
     /* Consulta 3: Goles totales marcados*/
         //3.Suma de todos los golesLocal.
+        partidas.stream()
 
 
     }

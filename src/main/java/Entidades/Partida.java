@@ -21,7 +21,7 @@ public class Partida {
     private String equipoLocal;
     private int golesLocal;
     private int golesVisitante;
-    private String duracion;       // "12min", "20min", "30min"
+    private String duracion;
     private LocalDateTime fecha;
     private int estrellasGanadas;
 }
