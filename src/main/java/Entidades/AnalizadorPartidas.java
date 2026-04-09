@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AnalizadorPartidas {
@@ -95,7 +96,32 @@ public class AnalizadorPartidas {
                 .filter(p -> p.getDuracion().equals("20min") || p.getDuracion().equals("30min"))
                 .forEach(System.out::println);
 
+    /* Consulta 7: Equipos más usados*/
+        //7. Los 5 equiposLocal con más apariciones.
+        IO.println("------------------------------");
+        Map<String, Long> count = partidas.stream()
+                .collect(Collectors.groupingBy(Partida::getEquipoLocal, Collectors.counting()));
+                 count.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                         .limit(5)
+                         .forEach(System.out::println);
 
+    /* Consulta 8: Peor racha (3+ derrotas seguidas)*/
+        //8. Partidas perdidas ordenadas por fecha (golesLocal < golesVisitante).
+        IO.println("------------------------------");
+        partidas.stream()
+                .filter(p -> p.getGolesLocal() < p.getGolesVisitante())
+                .sorted(Comparator.comparing(Partida::getFecha))
+                .forEach(System.out::println);
+
+
+    /* Consulta 9: Evolución mensual*/
+        //9. Agrupar por mes de fecha y contar victorias.
+        IO.println("------------------------------");
+        partidas.stream()
+                .filter(p -> p.getGolesLocal() > p.getGolesVisitante())
+                .collect(Collectors.groupingBy(p -> p.getFecha().getMonth(),Collectors.counting()))
+                .forEach((c,v) -> IO.println(c + ": " + v + " Victorias en total"));
 
     }
 }
